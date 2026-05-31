@@ -35,10 +35,10 @@ function bookDisplay(myLibrary) {
   for (const book of myLibrary) {
     const bookCard = document.createElement("div");
     bookCard.className = "book card";
-    console.log(book);
+    // console.log(book);
 
     for (const property in book) {
-      console.log(property);
+      // console.log(property);
       switch (property) {
         case "title":
           const title = document.createElement("div");
@@ -72,3 +72,16 @@ function bookDisplay(myLibrary) {
 
   // return bookShelf;
 }
+
+// Run this on browser console for testing
+const ikigai = new Book("Ikigai", "Hector Garcia", 200, true);
+const outliers = new Book("Outliers", "Malcolm Gladwell", 500, true);
+const sputnik = new Book("Sputnik Sweetheart", "Haruki Murakami", 300, true);
+const hMart = new Book("Crying in H Mart", "Michelle Zauner", 400, false);
+
+addBookToLibrary(ikigai);
+addBookToLibrary(outliers);
+addBookToLibrary(sputnik);
+addBookToLibrary(hMart);
+
+bookDisplay(myLibrary);
