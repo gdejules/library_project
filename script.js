@@ -32,19 +32,13 @@ function addBookToLibrary(bookObject) {
 // co-pilot suggests to extract card building logic with my existing code
 function createBookCard(book) {
   const bookCard = document.createElement("div");
-  bookCard.className = "book card";
-  bookCard.id = `book-${book.id}`; // Add ID to the DOM element
+  bookCard.className = "book-card";
+  bookCard.setAttribute("data-id", `${book.id}`); // Add ID to the DOM element
   const label = document.createElement("div");
   label.className = "book-label";
 
   for (const property in book) {
     switch (property) {
-      case "id":
-        const id = document.createElement("div");
-        id.className = "book-id";
-        id.textContent = book[property];
-        bookCard.appendChild(id);
-        break;
       case "title":
         const title = document.createElement("div");
         title.className = "book title";
@@ -62,7 +56,6 @@ function createBookCard(book) {
         pages.className = "book pages";
         pages.textContent = `${book[property]} pages`;
         label.appendChild(pages);
-        // bookCard.appendChild(pages);
         break;
       case "isRead":
         const isRead = document.createElement("div");
@@ -96,10 +89,10 @@ function createBookCard(book) {
   markRead.textContent = "Mark as Read";
   markRead.insertAdjacentHTML("afterbegin", svgCheck);
   actionBtn.appendChild(markRead);
-  // bookCard.appendChild(markRead);
 
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete-book";
+  deleteBtn.dataset.action = "delete";
   const svgDelete = `<svg
   xmlns="http://www.w3.org/2000/svg"
   width="24"
@@ -160,8 +153,7 @@ toggleForm.addEventListener("click", () => {
   }
 });
 
-// Submitting new book form
-// When adding new book, append only the new one - co-pilot suggests
+// Submitting new book form. When adding new book, append only the new one - co-pilot suggests
 bookForm.addEventListener("submit", (e) => {
   e.preventDefault();
   if (!bookForm.reportValidity()) return;
@@ -178,4 +170,20 @@ bookForm.addEventListener("submit", (e) => {
   const newBook = myLibrary[myLibrary.length - 1];
   document.querySelector(".bookshelf").appendChild(createBookCard(newBook));
   bookForm.reset();
+});
+
+// delete book function event
+const bookShelf = document.querySelector(".bookshelf");
+bookShelf.addEventListener("click", (e) => {
+  const deleteBtn = e.target.closest('[data-action="delete"]');
+  if (!deleteBtn) return;
+
+  const bookCard = deleteBtn.closest(".book-card");
+  if (!bookCard) return;
+
+  const index = myLibrary.findIndex((book) => book.id === bookCard.dataset.id);
+  if (index !== -1) {
+    myLibrary.splice(index, 1);
+  }
+  bookCard.remove();
 });

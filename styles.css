@@ -83,7 +83,7 @@ h2 {
   gap: 24px;
 }
 
-.book.card {
+.book-card {
   border: 1px solid lightgray;
   border-radius: 12px;
   background-color: white;
