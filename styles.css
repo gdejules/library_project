@@ -1,6 +1,17 @@
+/* general styling */
 :root {
+  /* font styling */
   font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 16px;
+  font-size: 14px;
+
+  /* color */
+  --text-color-primary: #161515;
+  --text-color-secondary: #2e2d2d;
+  --text-color-light: #dbe8f5;
+  --primary-color: #1e6a35;
+  --secondary-color: #f2f20b;
+  --success-color: #058105;
+  --warning-color: #ff7f50;
 }
 
 * {
@@ -9,14 +20,51 @@
   margin: 0;
 }
 
+/* button styling */
 button,
 div {
   box-sizing: border-box;
 }
 
+button {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-align: center;
+  height: auto;
+}
+
+.action-button {
+  grid-row: 4 / 5;
+  display: flex;
+  gap: 8px;
+  width: max-content;
+}
+
+.mark-read {
+  color: var(--text-color-light);
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  max-width: max-content;
+}
+
+.delete-book {
+  border: 2px solid var(--warning-color);
+  background-color: white;
+  width: min-content;
+  /* height: 42px; */
+}
+
+/* main container layouts and styling*/
 .container {
   display: grid;
-  grid-template: 100px 1fr / 800px 320px;
+  grid-template: 72px 1fr / 800px 320px;
   background-color: #f1f2f5;
   min-height: 100vh;
   width: max-content;
@@ -27,18 +75,25 @@ div {
 
 .header {
   grid-area: 1 / 1 / 2 / 2;
-  padding: 20px 32px;
+  padding: 20px 24px;
   border-bottom: 1px solid lightgray;
 }
 
 .main-content {
   grid-area: 2 / 1 / 3 / 2;
-  padding: 20px 32px;
+  padding: 20px 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
+h1,
+h2 {
+  font-weight: 700;
+  color: var(--text-color-primary);
+}
+
+/* background layout and styling */
 .background-image {
   position: relative;
   background-image:
@@ -58,40 +113,34 @@ div {
   bottom: 100px;
   left: -90px;
   width: 100%;
-  color: white;
+  color: var(--text-color-light);
   font-weight: 300;
-  font-size: 0.9rem;
+  font-size: 1rem;
   padding: 12px;
   & a {
-    color: white;
+    color: var(--text-color-light);
   }
 }
 
-h1,
-h2 {
-  font-weight: 700;
-  color: darkslategray;
-}
-
-/* styling for book card */
+/* book card styling and layout*/
 .bookshelf {
   flex: 1;
   display: grid;
   grid-template-rows: repeat(1, minmax(min-content, max-content));
   grid-auto-rows: minmax(min-content, max-content);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
 }
 
 .book-card {
   border: 1px solid lightgray;
   border-radius: 12px;
   background-color: white;
-  box-shadow: 2px 2px 6px 2px hsl(0, 2%, 18%, 0.3);
+  box-shadow: 1px 1px 9px 1px hsl(225, 93%, 7%, 0.1);
   display: grid;
   grid-template-rows: min-content 48px 24px min-content;
   gap: 12px;
-  padding: 16px 20px;
+  padding: 12px 16px;
   align-items: start;
 }
 
@@ -110,14 +159,14 @@ h2 {
   grid-row: 2 / 3;
   font-size: 1.2rem;
   font-weight: 600;
-  color: hsl(0, 2%, 9%);
+  color: var(--text-color-primary);
 }
 
 .book.author {
   grid-row: 3 / 4;
   font-size: 1.1rem;
   font-weight: 500;
-  color: darkslategray;
+  color: var(--text-color-secondary);
 }
 
 .book.pages {
@@ -128,7 +177,7 @@ h2 {
   text-align: center;
   border: 1px solid lightgray;
   border-radius: 40px;
-  color: darkslategray;
+  color: var(--text-color-secondary);
   padding: 4px 12px;
   display: grid;
   grid-template: 1fr / 1fr;
@@ -144,7 +193,7 @@ h2 {
   text-align: center;
   border: 1px solid lightgray;
   border-radius: 40px;
-  color: darkslategray;
+  color: var(--text-color-secondary);
   padding: 4px 12px;
   display: grid;
   grid-template: 1fr / 1fr;
@@ -158,9 +207,9 @@ h2 {
   font-size: 0.9rem;
   font-weight: 500;
   text-align: center;
-  border: 2px solid darkolivegreen;
+  border: 2px solid var(--success-color);
   border-radius: 40px;
-  color: darkolivegreen;
+  color: var(--success-color);
   padding: 4px 12px;
   display: grid;
   grid-template: 1fr / 1fr;
@@ -168,43 +217,7 @@ h2 {
   align-self: center;
 }
 
-.action-button {
-  grid-row: 4 / 5;
-  display: flex;
-  gap: 12px;
-  width: max-content;
-}
-
-.mark-read {
-  color: white;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 1rem;
-  font-weight: 500;
-  text-align: center;
-  border: 1px solid olivedrab;
-  border-radius: 8px;
-  background-color: darkolivegreen;
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  max-width: max-content;
-}
-
-.delete-book {
-  font-size: 1rem;
-  font-weight: 500;
-  text-align: center;
-  border: 2px solid crimson;
-  border-radius: 8px;
-  background-color: white;
-  padding: 8px 16px;
-  width: min-content;
-  height: 42px;
-}
-
-/* book form styling */
+/* book form styling and layout */
 .registration {
   grid-area: 1 / 2 / 3 / 3;
   padding: 24px;
@@ -222,11 +235,8 @@ h2 {
 
 #toggle-form.show,
 #book-form button {
-  height: max-content;
-  font-size: 1rem;
-  font-weight: 500;
-  color: white;
-  background-color: olivedrab;
+  color: var(--text-color-light);
+  background-color: var(--primary-color);
   padding: 12px 24px;
   border: 0;
   border-radius: 8px;
@@ -249,7 +259,7 @@ h2 {
   width: auto;
   display: grid;
   grid-template-rows: 20px 32px;
-  gap: 8px;
+  gap: 4px;
 }
 
 #book-form label[for="author"] {
@@ -257,7 +267,7 @@ h2 {
   width: auto;
   display: grid;
   grid-template-rows: 20px 32px;
-  gap: 8px;
+  gap: 4px;
 }
 
 #book-form label[for="pages"] {
@@ -265,18 +275,18 @@ h2 {
   width: auto;
   display: grid;
   grid-template-rows: 20px 32px;
-  gap: 8px;
+  gap: 4px;
 }
 
 #book-form .read-status {
   grid-area: 4 / 1 / 5 / 2;
   width: auto;
   display: grid;
-  grid-template-rows: 20px 32px;
-  gap: 8px;
+  grid-template-rows: 20px 24px;
+  gap: 4px;
 }
 
-.read-status div:first-child {
+.read-status span {
   grid-area: 1 / 1 / 2 / 2;
 }
 
@@ -284,10 +294,12 @@ h2 {
   grid-area: 2 / 1 / 3 / 2;
   display: flex;
   gap: 20px;
-  & div {
+  > div {
     flex: 1;
     display: flex;
     gap: 8px;
+    align-items: center;
+    height: auto;
   }
 }
 
@@ -306,12 +318,10 @@ input {
 }
 
 #toggle-form.hide {
-  height: max-content;
-  font-size: 1rem;
-  font-weight: 600;
-  color: olivedrab;
+  /* height: max-content; */
+  color: var(--primary-color);
   background-color: white;
   padding: 12px 24px;
-  border: 2px solid olivedrab;
+  border: 2px solid var(--primary-color);
   border-radius: 8px;
 }
