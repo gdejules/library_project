@@ -29,48 +29,75 @@ function addBookToLibrary(bookObject) {
   myLibrary.push(book);
 }
 
+// function to check if books in myLibrary already displayed
+function isDisplayed(myLibrary) {
+  for (const book of myLibrary) {
+    const bookIds = document.querySelectorAll(".book-id");
+    console.log(bookIds);
+
+    Array.from(bookIds).some((bookId) => {
+      console.log(bookId.textContent);
+      if (book.id === bookId.textContent) {
+        book.displayed = true;
+        return true;
+      }
+      console.log("Id checked.");
+      book.displayed = false;
+      return false;
+    });
+  }
+}
+
 function bookDisplay(myLibrary) {
-  let bookShelf = document.querySelector(".bookshelf");
+  const bookShelf = document.querySelector(".bookshelf");
+  isDisplayed(myLibrary);
 
   for (const book of myLibrary) {
-    const bookCard = document.createElement("div");
-    bookCard.className = "book card";
-    // console.log(book);
+    if (book.displayed === true) {
+      console.log(`${book.title} already displayed.`);
+    } else {
+      const bookCard = document.createElement("div");
+      bookCard.className = "book card";
 
-    for (const property in book) {
-      // console.log(property);
-      switch (property) {
-        case "title":
-          const title = document.createElement("div");
-          title.className = "book title";
-          title.textContent = book[property];
-          bookCard.appendChild(title);
-          break;
-        case "author":
-          const author = document.createElement("div");
-          author.className = "book author";
-          author.textContent = book[property];
-          bookCard.appendChild(author);
-          break;
-        case "pages":
-          const pages = document.createElement("div");
-          pages.className = "book pages";
-          pages.textContent = `${book[property]} pages`;
-          bookCard.appendChild(pages);
-          break;
-        case "isRead":
-          const isRead = document.createElement("div");
-          isRead.className = "book read";
-          isRead.textContent = `${book[property] ? "Already read" : "Not yet read"}`;
-          bookCard.appendChild(isRead);
-          break;
+      for (const property in book) {
+        // console.log(property);
+        switch (property) {
+          case "id":
+            const id = document.createElement("div");
+            id.className = "book-id";
+            id.textContent = book[property];
+            bookCard.appendChild(id);
+            break;
+          case "title":
+            const title = document.createElement("div");
+            title.className = "book title";
+            title.textContent = book[property];
+            bookCard.appendChild(title);
+            break;
+          case "author":
+            const author = document.createElement("div");
+            author.className = "book author";
+            author.textContent = book[property];
+            bookCard.appendChild(author);
+            break;
+          case "pages":
+            const pages = document.createElement("div");
+            pages.className = "book pages";
+            pages.textContent = `${book[property]} pages`;
+            bookCard.appendChild(pages);
+            break;
+          case "isRead":
+            const isRead = document.createElement("div");
+            isRead.className = "book read";
+            isRead.textContent = `${book[property] ? "Already read" : "Not read yet"}`;
+            bookCard.appendChild(isRead);
+            break;
+        }
       }
+
+      bookShelf.appendChild(bookCard);
     }
-
-    bookShelf.appendChild(bookCard);
   }
-
-  // return bookShelf;
 }
 
 // Run this to add initial data
