@@ -55,7 +55,7 @@ function bookDisplay(myLibrary) {
         case "pages":
           const pages = document.createElement("div");
           pages.className = "book pages";
-          pages.textContent = book[property];
+          pages.textContent = `${book[property]} pages`;
           bookCard.appendChild(pages);
           break;
         case "isRead":
@@ -73,7 +73,7 @@ function bookDisplay(myLibrary) {
   // return bookShelf;
 }
 
-// Run this on browser console for testing
+// Run this to add initial data
 const ikigai = new Book("Ikigai", "Hector Garcia", 200, true);
 const outliers = new Book("Outliers", "Malcolm Gladwell", 500, true);
 const sputnik = new Book("Sputnik Sweetheart", "Haruki Murakami", 300, true);
@@ -99,4 +99,28 @@ toggleForm.addEventListener("click", () => {
     toggleForm.textContent = "Hide book form";
     toggleForm.classList.replace("show", "hide");
   }
+});
+
+// Submitting new book form
+const submitBook = document.getElementById("submit-book");
+
+submitBook.addEventListener("click", (e) => {
+  e.preventDefault();
+  const bookTitle = document.getElementById("title");
+  const bookAuthor = document.getElementById("author");
+  const totalPages = document.getElementById("pages");
+  const readStatus = document.querySelector('[name="isRead"]');
+
+  const bookObj = {
+    title: bookTitle.value,
+    author: bookAuthor.value,
+    pages: totalPages.value,
+    isRead: readStatus.value,
+  };
+
+  addBookToLibrary(bookObj);
+  console.log(myLibrary);
+  bookDisplay(myLibrary);
+
+  bookForm.reset();
 });
