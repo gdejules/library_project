@@ -34,6 +34,8 @@ function createBookCard(book) {
   const bookCard = document.createElement("div");
   bookCard.className = "book card";
   bookCard.id = `book-${book.id}`; // Add ID to the DOM element
+  const label = document.createElement("div");
+  label.className = "book-label";
 
   for (const property in book) {
     switch (property) {
@@ -59,16 +61,66 @@ function createBookCard(book) {
         const pages = document.createElement("div");
         pages.className = "book pages";
         pages.textContent = `${book[property]} pages`;
-        bookCard.appendChild(pages);
+        label.appendChild(pages);
+        // bookCard.appendChild(pages);
         break;
       case "isRead":
         const isRead = document.createElement("div");
         isRead.className = "book read";
         isRead.textContent = `${book[property] ? "Already read" : "Haven't read"}`;
-        bookCard.appendChild(isRead);
+        label.appendChild(isRead);
+        bookCard.appendChild(label);
         break;
     }
   }
+
+  const actionBtn = document.createElement("div");
+  actionBtn.className = "action-button";
+
+  const markRead = document.createElement("button");
+  markRead.className = "mark-read";
+  const svgCheck = `<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#ffffff"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 12l5 5l10 -10" />
+</svg>`;
+
+  markRead.textContent = "Mark as Read";
+  markRead.insertAdjacentHTML("afterbegin", svgCheck);
+  actionBtn.appendChild(markRead);
+  // bookCard.appendChild(markRead);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.className = "delete-book";
+  const svgDelete = `<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#dc143c"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M4 7l16 0" />
+  <path d="M10 11l0 6" />
+  <path d="M14 11l0 6" />
+  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+</svg>`;
+
+  deleteBtn.insertAdjacentHTML("afterbegin", svgDelete);
+  actionBtn.appendChild(deleteBtn);
+  bookCard.appendChild(actionBtn);
 
   return bookCard;
 }
