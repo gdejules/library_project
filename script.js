@@ -17,6 +17,13 @@ function Book(title, author, pages, isRead) {
   };
 }
 
+// prototype function to toggle read label
+Book.prototype.markRead = function () {
+  if (!this.isRead) {
+    this.isRead = true;
+  }
+};
+
 // add book to library function
 function addBookToLibrary(bookObject) {
   let bookTitle = bookObject.title;
@@ -172,18 +179,37 @@ bookForm.addEventListener("submit", (e) => {
   bookForm.reset();
 });
 
-// delete book function event
+// delete and mark-read function events
 const bookShelf = document.querySelector(".bookshelf");
 bookShelf.addEventListener("click", (e) => {
   const deleteBtn = e.target.closest('[data-action="delete"]');
-  if (!deleteBtn) return;
+  if (deleteBtn) {
+    const bookCard = deleteBtn.closest(".book-card");
+    if (!bookCard) return;
 
-  const bookCard = deleteBtn.closest(".book-card");
+    const index = myLibrary.findIndex(
+      (book) => book.id === bookCard.dataset.id,
+    );
+    if (index !== -1) {
+      myLibrary.splice(index, 1);
+    }
+    bookCard.remove();
+    return;
+  }
+
+  const markAsRead = e.target.closest(".mark-read");
+  if (!markAsRead) return;
+
+  const bookCard = markAsRead.closest(".book-card");
   if (!bookCard) return;
 
   const index = myLibrary.findIndex((book) => book.id === bookCard.dataset.id);
   if (index !== -1) {
-    myLibrary.splice(index, 1);
+    myLibrary[index].markRead();
   }
-  bookCard.remove();
+
+  const statusLabel = bookCard.querySelector(".not-read");
+  if (!statusLabel) return;
+  statusLabel.className = "read";
+  statusLabel.textContent = "Already read";
 });
