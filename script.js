@@ -66,7 +66,7 @@ function createBookCard(book) {
         break;
       case "isRead":
         const isRead = document.createElement("div");
-        isRead.className = "book read";
+        isRead.className = `${book[property] ? "read" : "not-read"}`;
         isRead.textContent = `${book[property] ? "Already read" : "Haven't read"}`;
         label.appendChild(isRead);
         bookCard.appendChild(label);
