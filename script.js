@@ -17,6 +17,13 @@ function Book(title, author, pages, isRead) {
   };
 }
 
+// prototype function to toggle read label
+Book.prototype.markRead = function () {
+  if (!this.isRead) {
+    this.isRead = true;
+  }
+};
+
 // add book to library function
 function addBookToLibrary(bookObject) {
   let bookTitle = bookObject.title;
@@ -32,17 +39,13 @@ function addBookToLibrary(bookObject) {
 // co-pilot suggests to extract card building logic with my existing code
 function createBookCard(book) {
   const bookCard = document.createElement("div");
-  bookCard.className = "book card";
-  bookCard.id = `book-${book.id}`; // Add ID to the DOM element
+  bookCard.className = "book-card";
+  bookCard.setAttribute("data-id", `${book.id}`); // Add ID to the DOM element
+  const label = document.createElement("div");
+  label.className = "book-label";
 
   for (const property in book) {
     switch (property) {
-      case "id":
-        const id = document.createElement("div");
-        id.className = "book-id";
-        id.textContent = book[property];
-        bookCard.appendChild(id);
-        break;
       case "title":
         const title = document.createElement("div");
         title.className = "book title";
@@ -59,16 +62,65 @@ function createBookCard(book) {
         const pages = document.createElement("div");
         pages.className = "book pages";
         pages.textContent = `${book[property]} pages`;
-        bookCard.appendChild(pages);
+        label.appendChild(pages);
         break;
       case "isRead":
         const isRead = document.createElement("div");
-        isRead.className = "book read";
+        isRead.className = `${book[property] ? "read" : "not-read"}`;
         isRead.textContent = `${book[property] ? "Already read" : "Haven't read"}`;
-        bookCard.appendChild(isRead);
+        label.appendChild(isRead);
+        bookCard.appendChild(label);
         break;
     }
   }
+
+  const actionBtn = document.createElement("div");
+  actionBtn.className = "action-button";
+
+  const markRead = document.createElement("button");
+  markRead.className = "mark-read";
+  const svgCheck = `<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#dbe8f5"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 12l5 5l10 -10" />
+</svg>`;
+
+  markRead.textContent = "Mark as Read";
+  markRead.insertAdjacentHTML("afterbegin", svgCheck);
+  actionBtn.appendChild(markRead);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.className = "delete-book";
+  deleteBtn.dataset.action = "delete";
+  const svgDelete = `<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#ff7f50"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M4 7l16 0" />
+  <path d="M10 11l0 6" />
+  <path d="M14 11l0 6" />
+  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+</svg>`;
+
+  deleteBtn.insertAdjacentHTML("afterbegin", svgDelete);
+  actionBtn.appendChild(deleteBtn);
+  bookCard.appendChild(actionBtn);
 
   return bookCard;
 }
@@ -108,8 +160,7 @@ toggleForm.addEventListener("click", () => {
   }
 });
 
-// Submitting new book form
-// When adding new book, append only the new one - co-pilot suggests
+// Submitting new book form. When adding new book, append only the new one - co-pilot suggests
 bookForm.addEventListener("submit", (e) => {
   e.preventDefault();
   if (!bookForm.reportValidity()) return;
@@ -126,4 +177,39 @@ bookForm.addEventListener("submit", (e) => {
   const newBook = myLibrary[myLibrary.length - 1];
   document.querySelector(".bookshelf").appendChild(createBookCard(newBook));
   bookForm.reset();
+});
+
+// delete and mark-read function events
+const bookShelf = document.querySelector(".bookshelf");
+bookShelf.addEventListener("click", (e) => {
+  const deleteBtn = e.target.closest('[data-action="delete"]');
+  if (deleteBtn) {
+    const bookCard = deleteBtn.closest(".book-card");
+    if (!bookCard) return;
+
+    const index = myLibrary.findIndex(
+      (book) => book.id === bookCard.dataset.id,
+    );
+    if (index !== -1) {
+      myLibrary.splice(index, 1);
+    }
+    bookCard.remove();
+    return;
+  }
+
+  const markAsRead = e.target.closest(".mark-read");
+  if (!markAsRead) return;
+
+  const bookCard = markAsRead.closest(".book-card");
+  if (!bookCard) return;
+
+  const index = myLibrary.findIndex((book) => book.id === bookCard.dataset.id);
+  if (index !== -1) {
+    myLibrary[index].markRead();
+  }
+
+  const statusLabel = bookCard.querySelector(".not-read");
+  if (!statusLabel) return;
+  statusLabel.className = "read";
+  statusLabel.textContent = "Already read";
 });
