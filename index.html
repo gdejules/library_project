@@ -20,7 +20,14 @@
           <div class="bookshelf"></div>
         </div>
         <div class="registration">
-          <button>Add New Book</button>
+          <button id="toggle-form" class="show">Add new book</button>
+          <form action="" id="book-form" class="form-hidden">
+            <label for="title">
+              Book title:
+              <input type="text" id="title" />
+            </label>
+            <button type="submit">Submit</button>
+          </form>
         </div>
       </div>
       <span class="caption"

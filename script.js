@@ -85,3 +85,18 @@ addBookToLibrary(sputnik);
 addBookToLibrary(hMart);
 
 bookDisplay(myLibrary);
+
+// Show and hide book form for submitting new book
+const toggleForm = document.getElementById("toggle-form");
+const bookForm = document.getElementById("book-form");
+toggleForm.addEventListener("click", () => {
+  bookForm.classList.toggle("form-hidden");
+
+  if (bookForm.classList.contains("form-hidden")) {
+    toggleForm.textContent = "Add new book";
+    toggleForm.classList.replace("hide", "show");
+  } else {
+    toggleForm.textContent = "Hide book form";
+    toggleForm.classList.replace("show", "hide");
+  }
+});
