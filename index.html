@@ -24,8 +24,60 @@
           <form action="" id="book-form" class="form-hidden">
             <label for="title">
               Book title:
-              <input type="text" id="title" />
+              <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="For example: Ikigai"
+                minlength="3"
+                required
+              />
             </label>
+            <label for="author">
+              Book author:
+              <input
+                type="text"
+                id="author"
+                name="author"
+                placeholder="Example: Hector Garcia"
+                minlength="3"
+              />
+            </label>
+            <label for="pages">
+              Total pages:
+              <input
+                type="text"
+                id="author"
+                name="pages"
+                placeholder="300"
+                pattern="^[0-9]+$"
+              />
+            </label>
+            <div class="read-status">
+              <div>Have you read it?</div>
+              <div class="radio-options">
+                <div>
+                  <input
+                    type="radio"
+                    id="read"
+                    name="isRead"
+                    value="true"
+                    required
+                  />
+                  <label for="read">Yes</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="not-read"
+                    name="isRead"
+                    value="false"
+                    required
+                  />
+                  <label for="">No</label>
+                </div>
+              </div>
+            </div>
             <button type="submit">Submit</button>
           </form>
         </div>
